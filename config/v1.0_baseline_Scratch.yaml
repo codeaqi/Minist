@@ -1,0 +1,47 @@
+# Metadata
+name: MNIST baseline from scratch
+
+# Hyperparameters
+hyperparameters:
+  data_root: "data"
+  model_path: "modelpara.pth"
+  pretrained_weights: "modelpara.pth"
+  global_batch_size: 100
+  val_batch_size: 100
+  epochs_num: 10
+  download: true
+  use_gpu: true
+  is_train: false
+  show_pic: false
+
+  model:
+    class_path: Minist_eval.net.mnist_cnn:MNISTNetwork
+    init_args:
+      in_chans: 1
+      mid_chans: 32
+      num_blocks: 2
+      num_classes: 10
+      drop_rate: 0.0
+
+  loss:
+    cross_entropy:
+      class_path: torch.nn:CrossEntropyLoss
+      init_args:
+        reduction: mean
+
+  optimizer:
+    class_path: torch.optim:AdamW
+    init_args:
+      betas: [0.9, 0.999]
+      lr: 3e-4
+      weight_decay: 0.0
+
+  lr_scheduler:
+    class_path: torch.optim.lr_scheduler:CosineAnnealingLR
+    init_args:
+      T_max: 10
+      eta_min: 1e-6
+
+  metrics:
+    acc:
+      class_path: Minist_eval.utils.metrics:Accuracy

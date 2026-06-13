@@ -1,45 +1,58 @@
-基于Pytorch的卷积神经网络MNIST手写数字识别 <br>
-该README是对cnn_mnist_pytorch.py工程的说明
+# MNIST 手写数字识别
 
-## 一、环境要求:
- - Windows10
- - PyCharm
- - conda4.8.2 
- - NVIDIA GPU(可选) 
-	
-	
- - python 3.7.6
- - pytorch 1.4.0
- - torchvision 0.5.0
- - numpy 1.18.1 
- - matplotlib 3.1.3
- - time 
- - cudatoolkit(可选) 10.1 
+这是一个基于 PyTorch 的 MNIST 手写数字识别项目，保留了最原始的单文件脚本 [cnn_mnist_pytorch.py](./cnn_mnist_pytorch.py)，同时提供了一个按规范拆分后的新版本入口 [Minist_eval/train.py](./Minist_eval/train.py)。
 
- - MNIST 
+## 项目结构
 
-## 二、使用方法:
-```
-1.正确设置路径
-├── cnn_mnist_pytorch.py   #主程序 
-├── modelpara.pth          #已训练网络参数模型 
-├── README.txt             #使用说明 
-├── MNIST                  #MNIST数据集 需解压 
-│   ├── processed
-└── └── raw
-```
-```
-2.直接运行cnn_mnist_pytorch.py即可获得已训练模型的测试结果
-注:若无GPU，请将use_gpu设为0
-```
-```
-3.设置超参数以重新训练
+```text
+.
+├── cnn_mnist_pytorch.py        # 原始单文件版本
+├── Minist_eval/                # 模块化版本
+├── config/                     # YAML 配置
+├── data/                       # MNIST 数据
+├── modelpara.pth               # 预训练模型参数
+└── README.md
 ```
 
-## 三、测试结果:
-MNIST测试集识别准确率99.22%
-10000张测试集图片识别总时间2.362s(GPU)/8.283s(CPU)
+## 运行方式
 
--------------- <br>
-By: Mr.Liu Mr.Li Ms.Gai<br>
-时间：2020年4月 <br>
+### 原始单文件版本
+
+```powershell
+python cnn_mnist_pytorch.py
+```
+
+### 模块化版本
+
+```powershell
+python -m Minist_eval.train --config config/v1.0_baseline_Scratch.yaml
+```
+
+## 配置说明
+
+模块化版本的超参数集中在 [config/v1.0_baseline_Scratch.yaml](./config/v1.0_baseline_Scratch.yaml) 里，包括：
+
+- 数据路径
+- batch size
+- 是否训练
+- 是否使用 GPU
+- 模型结构参数
+- 优化器和学习率调度器
+
+## 数据说明
+
+项目默认使用 MNIST 数据集。当前仓库中已经包含了处理后的数据文件，模块化版本会优先读取本地数据。
+
+## 模型说明
+
+模型是一个简单的卷积神经网络，适合做 MNIST 入门示例：
+
+- 两层卷积
+- 两层池化
+- 两层全连接
+- 输出 10 类数字结果
+
+## 当前效果
+
+在当前配置下，测试集准确率约为 `99.22%`。
+
